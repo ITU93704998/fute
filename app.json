@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "fute",
+    "slug": "fute",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
