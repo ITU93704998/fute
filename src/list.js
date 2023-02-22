@@ -40,6 +40,7 @@ const List = () => {
 
   const novaData = [{ id: 212121, nome: "Adcione um jogador acima", ordem: 1 }];
   const data = dataa != null ? dataa : novaData;
+  const quantidade = config != null ? config["quantidade"] : 21;
 
   const showToast = (message) => {
     ToastAndroid.show(message, ToastAndroid.SHORT);
@@ -55,6 +56,7 @@ const List = () => {
         id,
         nome,
         ordem: data != null ? data.length + 1 : 1,
+        vezes: 0,
       };
 
       try {
@@ -107,17 +109,48 @@ const List = () => {
   }
 
   async function RemoveJogador(id) {
-    const response = await AsyncStorage.getItem("@fute:list_jogadores");
-    const responseData = response ? JSON.parse(response) : [];
+    const index = data.findIndex((element) => element.id === id);
+    const posision = index + 1;
+    if (posision <= quantidade) {
+      try {
+        const jogadoresPrimeiroTime = data.slice(0, quantidade);
+        const SemJogadorExcluido = jogadoresPrimeiroTime.filter(
+          (item) => item.id !== id
+        );
+        const primeiroProximo = data.slice(quantidade * 2, quantidade * 2 + 1);
+        const jogadoresSegundoTime = data.slice(quantidade, quantidade * 2);
+        const jogadoresDepos = data.slice(quantidade * 2 + 1, data.length);
 
-    const data = responseData.filter((item) => item.id !== id);
+        const NovaFormacao = [
+          ...SemJogadorExcluido,
+          ...primeiroProximo,
+          ...jogadoresSegundoTime,
+          ...jogadoresDepos,
+        ];
 
-    await AsyncStorage.setItem("@fute:list_jogadores", JSON.stringify(data));
+        await AsyncStorage.setItem(
+          "@fute:list_jogadores",
+          JSON.stringify(NovaFormacao)
+        );
+        setVeri(!veri);
+        const message = "Jogador deletado!";
+        showToast(message);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      const response = await AsyncStorage.getItem("@fute:list_jogadores");
+      const responseData = response ? JSON.parse(response) : [];
 
-    setData(data);
+      const data = responseData.filter((item) => item.id !== id);
 
-    const message = "Jogador deletado!";
-    showToast(message);
+      await AsyncStorage.setItem("@fute:list_jogadores", JSON.stringify(data));
+
+      setData(data);
+
+      const message = "Jogador deletado!";
+      showToast(message);
+    }
   }
 
   return (
@@ -127,12 +160,18 @@ const List = () => {
         flexDirection: "column",
         justifyContent: "center",
         padding: 10,
-        marginTop: 40,
+        backgroundColor: "white",
       }}
     >
-      <StatusBar style="light" backgroundColor="#027381" />
+      <StatusBar style="dark" backgroundColor="white" />
 
-      <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-around",
+          marginTop: 50,
+        }}
+      >
         <TextInput
           style={{
             backgroundColor: "#5555",
@@ -167,6 +206,7 @@ const List = () => {
 
       <View
         style={{
+          flex: 1,
           width: "100%",
           flexDirection: "column",
           justifyContent: "center",
@@ -178,6 +218,7 @@ const List = () => {
             height: "90%",
             width: "100%",
             marginTop: 10,
+            paddingBottom: 5,
           }}
           showsVerticalScrollIndicator={false}
           data={data}
@@ -209,7 +250,10 @@ const List = () => {
               </TouchableOpacity>
               <View
                 style={{
-                  width: "75%",
+                  width:
+                    data.findIndex((element) => element.id === item.id) + 1 == 1
+                      ? "85%"
+                      : "75%",
                   backgroundColor: "#dcdcdc",
                   borderRadius: 6,
                   height: 50,
@@ -236,32 +280,13 @@ const List = () => {
                 </Text>
               </View>
               {data.findIndex((element) => element.id === item.id) + 1 == 1 ? (
-                <TouchableOpacity
-                  onPress={() =>
-                    Alert.alert(
-                      "Atenção!",
-                      "Esse jogador já é o primeiro da lista!"
-                    )
-                  }
-                  style={{
-                    width: "10%",
-                    backgroundColor: "#dcdcdc",
-                    borderRadius: 6,
-                    height: 50,
-                    padding: 5,
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <FontAwesome5 name="chess-king" size={20} color="orange" />
-                </TouchableOpacity>
+                <TouchableOpacity></TouchableOpacity>
               ) : (
                 <TouchableOpacity
                   onPress={() => Subir(item.id)}
                   style={{
                     width: "10%",
-                    backgroundColor: "#194B32",
+                    backgroundColor: "#696969",
                     borderRadius: 6,
                     height: 50,
                     padding: 5,

@@ -2,12 +2,19 @@
   "expo": {
     "name": "fute",
     "slug": "fute",
-    "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "version": "1.0.1",
+    "icon": "./src/img/icon.png",
+    "assetBundlePatterns": ["**/*"],
     "android": {
-      "package": "com.italoribeiro.fute"
+      "package": "com.italoribeiro.fute",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/img/icon.png",
+        "backgroundColor": "#FE7552"
+      }
+    },
+    "splash": {
+      "image": "./src/img/spla.png",
+      "backgroundColor": "#FE7552"
     }
   }
 }

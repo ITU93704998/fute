@@ -95,7 +95,7 @@ const Config = () => {
         flexDirection: "column",
         justifyContent: "center",
         padding: 20,
-        backgroundColor: "#027381",
+        backgroundColor: "#fff",
       }}
     >
       <View
@@ -109,36 +109,41 @@ const Config = () => {
           borderRadius: 6,
         }}
       >
-        <Text style={{ fontSize: 17, fontWeight: "bold", color: "#696969" }}>
-          Jogador por time?
-        </Text>
-        <TextInput
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={{ fontSize: 20, fontWeight: "bold", color: "#696969" }}>
+            Quantos jogador por time?
+          </Text>
+          <TextInput
+            style={{
+              width: "20%",
+              color: "orange",
+              fontWeight: "bold",
+              fontSize: 20,
+              marginLeft: 10,
+            }}
+            placeholder="00"
+            onChangeText={setQuantidade}
+            maxLength={2}
+            value={quantidade.toString()}
+            keyboardType="numeric"
+          />
+        </View>
+        <View
           style={{
-            backgroundColor: "#dcdcdc",
-            height: 29,
-            padding: 5,
-            borderRadius: 5,
-            height: 50,
-            marginTop: 10,
-            width: "100%",
-            color: "#696969",
+            borderBottomColor: "#dcdcdc",
+            borderBottomWidth: 1,
+            marginTop: 20,
           }}
-          placeholder="00"
-          onChangeText={setQuantidade}
-          maxLength={2}
-          value={quantidade.toString()}
-          keyboardType="numeric"
         />
-
         <Text
           style={{
-            fontSize: 17,
+            fontSize: 20,
             fontWeight: "bold",
             color: "#696969",
             marginTop: 20,
           }}
         >
-          Cor Colete primeiro time?
+          Cor colete primeiro time?
         </Text>
         <View
           style={{
@@ -179,7 +184,7 @@ const Config = () => {
             marginTop: 20,
           }}
         >
-          Cor Colete segundo time?
+          Cor colete segundo time?
         </Text>
         <View
           style={{
@@ -206,56 +211,64 @@ const Config = () => {
             <Picker.Item label="Verde" value="#194B32" />
           </Picker>
         </View>
-
-        <TouchableOpacity
-          onPress={() => CriarConfig()}
+        <View
           style={{
-            width: "100%",
-            backgroundColor: "green",
-            borderRadius: 6,
-            height: 50,
-            padding: 5,
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
-            marginTop: 30,
           }}
         >
-          <Text
+          <TouchableOpacity
+            onPress={() => DeleteTudo()}
             style={{
-              fontSize: 20,
-              color: "#fff",
-              fontWeight: "bold",
+              width: "45%",
+              backgroundColor: "#696969",
+              borderRadius: 6,
+              height: 45,
+              padding: 5,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 30,
             }}
           >
-            Salvar Configuração
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 14,
+                color: "#fff",
+                fontWeight: "bold",
+              }}
+            >
+              Deletar
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => CriarConfig()}
+            style={{
+              width: "45%",
+              backgroundColor: "green",
+              borderRadius: 6,
+              height: 45,
+              padding: 5,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 30,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                color: "#fff",
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              Salvar
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <TouchableOpacity
-        onPress={() => DeleteTudo()}
-        style={{
-          width: "100%",
-          backgroundColor: "#ffff",
-          borderRadius: 6,
-          height: 50,
-          padding: 5,
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 50,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 15,
-            color: "#F44E3F",
-            fontWeight: "500",
-          }}
-        >
-          Excluir toda Configuração
-        </Text>
-      </TouchableOpacity>
     </View>
   );
 };
